@@ -98,6 +98,8 @@ class IndicatorSysmonitor(object):
         cfile = home + "/" + self.config_path+"/"+cfilename
         cfileoutput = subprocess.getoutput(cfile)
 
+        logging.info("OUT: " + cfileoutput)
+        
         # create menu {{{
         menu = Gtk.Menu()
 
@@ -114,6 +116,10 @@ class IndicatorSysmonitor(object):
                
         if options["icon_name"] == "":
             options["icon_name"]="default"
+
+            if options["image"] == "":
+                options["image"] = options["templateImage"]
+	    
             if not options["image"] == "":
 
                 logging.info("image: " + options["image"])
@@ -182,6 +188,7 @@ class IndicatorSysmonitor(object):
             'command': self._parse_option(p_options, "bash"),
             'terminal': self._parse_option(p_options, "terminal"),
             'image': self._parse_option(p_options, "image"),
+            'templateImage': self._parse_option(p_options, "templateImage"),
             'color': self._parse_option(p_options, "color"),
             'font': self._parse_option(p_options, "font"),
             'size': self._parse_option(p_options, "size")            
