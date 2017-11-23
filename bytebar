@@ -97,6 +97,12 @@ class IndicatorSysmonitor(object):
         home = str(Path.home())
         cfile = home + "/" + self.config_path+"/"+cfilename
         cfileoutput = subprocess.getoutput(cfile)
+        
+        #Check file executable
+        if cfileoutput.find("Permission denied") >= 0:
+            return
+
+        pprint(cfileoutput)
 
         # create menu {{{
         menu = Gtk.Menu()
@@ -105,7 +111,8 @@ class IndicatorSysmonitor(object):
 
         #pprint(lines)
 
-        ## First line
+        ## First line / Title
+
         line=lines.pop(0)
         options = line.split("|")
         label=options.pop(0)
@@ -130,7 +137,9 @@ class IndicatorSysmonitor(object):
         ind.set_status(appindicator.IndicatorStatus.ACTIVE)
         ind.set_label(label,"")
 
-        ## End First line
+        # First separator
+        line=lines.pop(0)
+        ## End First line / Title
 
         for line in lines:
 
@@ -181,6 +190,7 @@ class IndicatorSysmonitor(object):
             'icon_name': self._parse_option(p_options, "iconName"),
             'command': self._parse_option(p_options, "bash"),
             'terminal': self._parse_option(p_options, "terminal"),
+            'href': self._parse_option(p_options, "href"),            
             'image': self._parse_option(p_options, "image"),
             'color': self._parse_option(p_options, "color"),
             'font': self._parse_option(p_options, "font"),
@@ -231,6 +241,7 @@ class IndicatorSysmonitor(object):
         cont = Gtk.MenuItem()
         cont.p_command=options["command"]
         cont.p_terminal=options["terminal"]
+        cont.p_href=options["href"]        
         cont.connect('activate', self.on_item_activated)        
         
         cont.add(box)
@@ -241,9 +252,11 @@ class IndicatorSysmonitor(object):
         
     def on_item_activated(self, widget):
         
-        command=widget.p_command
+        if widget.p_href:
+            os.system( "xdg-open " + widget.p_href + " &")
+            return
 
-        pprint(command)
+        command=widget.p_command
 
         if not widget.p_terminal == "false":
             command="gnome-terminal -e \"" + command + "\""                    
