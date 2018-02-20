@@ -1,0 +1,11 @@
+[Desktop Entry]
+Version=1.0
+Name=Bytebar Indicator
+GenericName=Bytebar Indicator
+Comment=Bytebar
+Exec=~/.local/share/bytebar/bytebar-ind.py
+Terminal=false
+Icon=~/.local/share/bytebar/bytebar.png
+Type=Application
+Categories=System;
+Name[en_US]=bytebar-indicator.desktop
