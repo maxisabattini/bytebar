@@ -12,10 +12,10 @@ And for Argos gnome shell extension:
 
 Indicator area, "Tools" custom script and "Fortune".
 
-![](https://github.com/maxisabattini/bytebar/blob/master/screen1.jpg?raw=true)
+![](https://github.com/maxisabattini/bytebar/blob/master/screen1.png?raw=true)
 
 Fortune:
 
-![](https://github.com/maxisabattini/bytebar/blob/master/screen2.jpg?raw=true)
+![](https://github.com/maxisabattini/bytebar/blob/master/screen2.png?raw=true)
 
 
