@@ -1,11 +1,21 @@
 [Desktop Entry]
-Version=1.0
-Name=Bytebar Indicator
-GenericName=Bytebar Indicator
+Categories=System;
+Comment[en_US]=Bytebar
 Comment=Bytebar
 Exec=~/.local/share/bytebar/bytebar-ind.py
-Terminal=false
+GenericName[en_US]=Bytebar Indicator
+GenericName=Bytebar Indicator
 Icon=~/.local/share/bytebar/bytebar.png
-Type=Application
-Categories=System;
+MimeType=
 Name[en_US]=bytebar-indicator.desktop
+Name=bytebar-indicator.desktop
+Path=
+StartupNotify=true
+Terminal=false
+TerminalOptions=
+Type=Application
+Version=1.0
+X-DBUS-ServiceName=
+X-DBUS-StartupType=
+X-KDE-SubstituteUID=false
+X-KDE-Username=

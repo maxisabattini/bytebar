@@ -19,13 +19,18 @@ from pprint import pprint
 import base64
 
 import gi
+gi.require_version('Gtk', '3.0')
 from gi.repository import GLib, Gtk
+
+
 
 logging.basicConfig(level=logging.INFO)
 
 class BytebarSI(object):
 
     config_path=".config/argos"
+    terminal_apps=[ "konsole", "mate-terminal", "gnome-terminal" ]
+    terminal_app="xterm"
 
     def __init__(self):
 
@@ -33,11 +38,22 @@ class BytebarSI(object):
 
         files = os.listdir( str(Path.home()) + "/" + self.config_path)
         for cfilename in files:
+            pprint(cfilename)
             i=self.get_indicator_for_file(cfilename)
             if i:
                 self.ind[cfilename]=i
                 if self.ind[cfilename].milliseconds > 0:
                     GLib.timeout_add(self.ind[cfilename].milliseconds, self.timeout, cfilename)
+
+
+        for term in self.terminal_apps:
+            output = subprocess.getoutput("which " + term + " 1> /dev/null; echo $?")
+            pprint(term)
+            pprint(output)
+            if(output=="0"):
+                self.terminal_app=subprocess.getoutput("which " + term)
+
+        pprint(self.terminal_app)                    
 
         pprint("Loaded indicators")
         pprint(self.ind)
@@ -269,7 +285,7 @@ class BytebarSI(object):
             box.pack_start(img,False, False, 4 )
             img.show()
 
-        label=Gtk.Label(p_label)
+        label=Gtk.Label(label=p_label)
 
         markup=""
         if not options["color"] == "":            
@@ -288,7 +304,7 @@ class BytebarSI(object):
         cont = Gtk.MenuItem()
         cont.p_command=options["command"]
         cont.p_terminal=options["terminal"]
-        cont.p_href=options["href"]        
+        cont.p_href=options["href"]       
         cont.connect('activate', self.on_item_activated)        
         
         cont.add(box)
@@ -304,7 +320,7 @@ class BytebarSI(object):
         command=widget.p_command
 
         if not widget.p_terminal == "false":
-            command="gnome-terminal -e \"" + command + "\""                    
+            command=self.terminal_app + " -e \"" + command + "\""                    
 
         if not widget.p_command == "":
             os.system(command + " &")

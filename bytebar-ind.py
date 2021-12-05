@@ -78,6 +78,8 @@ CPU {{cpu}} | MEM {{mem}} | root {{fs///}}
 class IndicatorSysmonitor(object):
 
     config_path=".config/argos"
+    terminal_apps=[ "konsole", "mate-terminal", "gnome-terminal" ]
+    terminal_app="xterm"
 
     def __init__(self):
 
@@ -91,6 +93,14 @@ class IndicatorSysmonitor(object):
         for cfilename in files:            
             self.ind.append( self._get_menu_for_file(cfilename) )
 
+        for term in self.terminal_apps:
+            output = subprocess.getoutput("which " + term + " 1> /dev/null; echo $?")
+            pprint(term)
+            pprint(output)
+            if(output=="0"):
+                self.terminal_app=subprocess.getoutput("which " + term)
+
+        pprint(self.terminal_app)
 
     def _get_menu_for_file(self, cfilename):
 
@@ -232,7 +242,7 @@ class IndicatorSysmonitor(object):
             box.pack_start(img, False, False, 4 )
             img.show()
 
-        label=Gtk.Label(p_label)
+        label=Gtk.Label(label=p_label)
 
         markup=""
         if not options["color"] == "":            
@@ -308,7 +318,7 @@ class IndicatorSysmonitor(object):
         command=widget.p_command
 
         if not widget.p_terminal == "false":
-            command="gnome-terminal -e \"" + command + "\""                    
+            command=self.terminal_app + " -e \"" + command + "\""                    
 
         if not widget.p_command == "":
             os.system(command + " &")

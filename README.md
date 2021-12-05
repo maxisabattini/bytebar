@@ -8,7 +8,12 @@ For the original BitBar visit here:
 And for Argos gnome shell extension:
 [Argos](https://github.com/p-e-w/argos)
 
-##Screenshots
+Dependencies
+
+sudo apt install gir1.2-appindicator3-0.1
+
+
+## Screenshots
 
 Indicator area, "Tools" custom script and "Fortune".
 
